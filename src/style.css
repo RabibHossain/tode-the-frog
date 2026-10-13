@@ -1,0 +1,549 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  /* Soft sky blue, seen around the map because the canvas is transparent */
+  background: #cfe8f5;
+}
+
+.score {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #2f3e36;
+  font-family: system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* The countdown shown while Tode hides in a house, at the bottom of the screen */
+.shelter-timer {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(255, 233, 168, 0.92);
+  color: #2f3e36;
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  user-select: none;
+  pointer-events: none;
+}
+
+.shelter-timer[hidden] {
+  display: none;
+}
+
+/* The saved high score, smaller and paler, next to the current score */
+.score-best {
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(47, 62, 54, 0.25);
+  color: #5d6f66;
+  font-size: 16px;
+}
+
+.score-best[hidden] {
+  display: none;
+}
+
+/* The active power-ups, in a row just under the score */
+.power-ups {
+  position: fixed;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+.power-up {
+  padding: 4px 14px;
+  border-radius: 999px;
+  color: #2f3e36;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.start-screen,
+.pause,
+.game-over {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(30, 40, 35, 0.6);
+  color: #f4f1e8;
+  font-family: system-ui, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  user-select: none;
+}
+
+.start-screen[hidden],
+.pause[hidden],
+.game-over[hidden] {
+  display: none;
+}
+
+.start-screen h1,
+.pause h1,
+.game-over h1 {
+  margin: 0;
+  font-size: 56px;
+}
+
+.start-screen p,
+.pause p,
+.game-over p {
+  margin: 0;
+}
+
+/* Three rows: text above Tode, a clear band around Tode in the middle of the screen, text below him */
+.start-screen {
+  display: grid;
+  grid-template-rows: 1fr 140px 1fr;
+  align-items: stretch;
+  justify-items: center;
+  gap: 0;
+  padding: 0 24px;
+}
+
+/* The score has nothing to show yet and would sit under the title on short windows */
+body:has(.start-screen:not([hidden])) .score {
+  display: none;
+}
+
+.start-screen-top,
+.start-screen-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.start-screen-top {
+  grid-row: 1;
+  justify-content: flex-end;
+}
+
+.start-screen-bottom {
+  grid-row: 3;
+  justify-content: flex-start;
+}
+
+.start-screen-story {
+  max-width: 460px;
+  line-height: 1.5;
+}
+
+.start-screen-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.start-screen-control-row {
+  display: flex;
+  gap: 28px;
+}
+
+.start-screen-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.start-screen-control span {
+  margin-left: 8px;
+}
+
+.start-screen kbd {
+  min-width: 20px;
+  padding: 4px 8px;
+  border: 1px solid rgba(244, 241, 232, 0.6);
+  border-radius: 6px;
+  background: rgba(244, 241, 232, 0.15);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.start-screen-hint {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.game-over-score {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.high-score-hint {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.game-over .high-score-hint {
+  margin-top: 12px;
+}
+
+.game-over-new-best {
+  color: #f2d27a;
+  font-weight: 600;
+}
+
+/* On-screen buttons for phones and tablets. They only exist on touch devices. */
+.touch {
+  /* Stops the page from scrolling, zooming or selecting text under the player's fingers */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* The keyboard keys are no use on a phone */
+.touch .start-screen-controls {
+  display: none;
+}
+
+/* The high score line is tapped on a phone, so it gets a bigger target */
+.touch .high-score-hint {
+  padding: 10px 16px;
+  font-size: 16px;
+}
+
+/* The buttons step aside while the start, pause or "Game Over" screen is up */
+body:has(.start-screen:not([hidden])) .touch-controls,
+body:has(.pause:not([hidden])) .touch-controls,
+body:has(.game-over:not([hidden])) .touch-controls {
+  display: none;
+}
+
+.touch-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 2px solid rgba(47, 62, 54, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  color: #2f3e36;
+  font-family: system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.touch-button:active {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Four direction buttons in a square, bottom left */
+.touch-pad {
+  position: fixed;
+  left: max(20px, env(safe-area-inset-left));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(2, 64px);
+  gap: 12px;
+}
+
+.touch-attack {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(32px, env(safe-area-inset-bottom));
+  width: 104px;
+  height: 104px;
+  background: rgba(255, 212, 59, 0.7);
+  font-size: 20px;
+}
+
+.touch-attack:active {
+  background: rgba(255, 212, 59, 0.95);
+}
+
+/* Pause and sound, top right */
+.touch-menu {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  display: flex;
+  gap: 10px;
+}
+
+.touch-small {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+}
+
+/* Covers the whole page while a phone is held upright */
+.rotate-hint {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  background: #2f4a3c;
+  color: #f4f1e8;
+  font-family: system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.rotate-hint p {
+  margin: 0;
+}
+
+@media (orientation: portrait) {
+  .rotate-hint {
+    display: flex;
+  }
+}
+
+/* A simple outline of a phone that tips over onto its side, again and again */
+.rotate-hint-phone {
+  width: 56px;
+  height: 96px;
+  border: 4px solid #f4f1e8;
+  border-radius: 12px;
+  animation: rotate-hint-turn 2.4s ease-in-out infinite;
+}
+
+@keyframes rotate-hint-turn {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+  60%,
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+/* People who have asked their device for less motion get the phone already on its side */
+@media (prefers-reduced-motion: reduce) {
+  .rotate-hint-phone {
+    animation: none;
+    transform: rotate(90deg);
+  }
+}
+
+/* The round button that opens the help and settings screen, top left on every device */
+.settings-button {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: max(12px, env(safe-area-inset-left));
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid rgba(47, 62, 54, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  color: #2f3e36;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-button:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* The help and settings screen: a dark veil with one panel in the middle */
+.settings {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(30, 40, 35, 0.6);
+  color: #f4f1e8;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.settings[hidden] {
+  display: none;
+}
+
+.settings-panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 760px;
+  max-height: 100%;
+  padding: 20px 28px 24px;
+  overflow-y: auto;
+  border-radius: 16px;
+  background: #2f4a3c;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  /* Lets a finger scroll the panel even though the rest of the page ignores swipes */
+  touch-action: pan-y;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.settings h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c9d8c4;
+}
+
+.settings p {
+  margin: 0 0 6px;
+}
+
+.settings-section {
+  margin-top: 16px;
+}
+
+.settings-guide-title {
+  margin-top: 22px !important;
+  padding-top: 16px;
+  border-top: 1px solid rgba(244, 241, 232, 0.2);
+}
+
+/* Two columns of guide sections when there is room, one on narrow screens */
+.settings-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  column-gap: 32px;
+}
+
+.settings-close,
+.settings-switch {
+  border: 1px solid rgba(244, 241, 232, 0.5);
+  border-radius: 999px;
+  background: rgba(244, 241, 232, 0.12);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-close {
+  padding: 6px 18px;
+}
+
+.settings-close:hover,
+.settings-switch:hover {
+  background: rgba(244, 241, 232, 0.22);
+}
+
+.settings-switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.settings-switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 18px;
+  font-weight: 600;
+}
+
+/* The "On" / "Off" badge inside a switch */
+.settings-switch-state {
+  min-width: 34px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(244, 241, 232, 0.2);
+  text-align: center;
+}
+
+.settings-switch[aria-checked='true'] .settings-switch-state {
+  background: #9fd6a3;
+  color: #1f3328;
+}
+
+.settings-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  margin: 0;
+}
+
+.settings-table dt {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.settings-table dd {
+  margin: 0;
+}
+
+.settings-color-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.settings-color-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.settings-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 241, 232, 0.5);
+}
