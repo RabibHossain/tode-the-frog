@@ -365,6 +365,14 @@ All nine lessons were checked on 2026-10-12 by playing the game in a headless Ch
 - Checked in headless Chrome: the built game served from `/sub/folder/` loaded all three models (HTTP 200),
   no failed requests, no console errors, game started. The dev server still works the same way.
 
+### Git repository started (2026-10-13)
+
+- `game` is now its own Git repository on branch `main`, with a first commit ("feat: add Tode the Frog game").
+- New `game/.gitignore` skips `node_modules/`, `dist/` and `*.zip`.
+- Not done yet: no remote is set and nothing is pushed. The user creates the GitHub repository
+  (suggested name `tode-the-frog`) and pushes with their own access token.
+- This log is edited after each commit, so it usually shows as changed and needs its own commit.
+
 ## Verified in the browser (2026-10-12 and 2026-10-13)
 
 - Scene renders: floor, houses, Tode, enemies, score pill. No console errors.
