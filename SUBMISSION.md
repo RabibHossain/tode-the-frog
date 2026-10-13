@@ -67,6 +67,7 @@ Share the `game` folder with these parts:
 
 | Include | What it is |
 |---|---|
+| `README.md` | What the game is, and the credits |
 | `index.html` | The page |
 | `package.json` | The list of tools the game needs |
 | `vite.config.js` | Build settings (relative paths) |

@@ -367,10 +367,12 @@ All nine lessons were checked on 2026-10-12 by playing the game in a headless Ch
 
 ### Git repository started (2026-10-13)
 
-- `game` is now its own Git repository on branch `main`, with a first commit ("feat: add Tode the Frog game").
+- `game` is now its own Git repository on branch `master` (renamed from `main` at the user's request), with a first commit ("feat: add Tode the Frog game").
 - New `game/.gitignore` skips `node_modules/`, `dist/` and `*.zip`.
 - Not done yet: no remote is set and nothing is pushed. The user creates the GitHub repository
   (suggested name `tode-the-frog`) and pushes with their own access token.
+- New `game/README.md`: what the game is, controls, how to run and build, and the credits
+  (the CC-BY house credit, the enemy model, the Tode model).
 - This log is edited after each commit, so it usually shows as changed and needs its own commit.
 
 ## Verified in the browser (2026-10-12 and 2026-10-13)
