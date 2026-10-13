@@ -375,6 +375,14 @@ All nine lessons were checked on 2026-10-12 by playing the game in a headless Ch
   (the CC-BY house credit, the enemy model, the Tode model).
 - This log is edited after each commit, so it usually shows as changed and needs its own commit.
 
+### Built copy for GitHub Pages (2026-10-13)
+
+- `game/docs` holds the built game, made with `npx vite build --outDir docs --emptyOutDir`. It is committed,
+  because GitHub Pages serves it straight from the `master` branch, folder `/docs`.
+- `docs` is a copy. After any change to the game, run that command again and commit, or the hosted game stays old.
+- The files are the same (same file names) as the sub-folder build that was tested in headless Chrome.
+  Not tested on GitHub itself: nothing is pushed yet.
+
 ## Verified in the browser (2026-10-12 and 2026-10-13)
 
 - Scene renders: floor, houses, Tode, enemies, score pill. No console errors.

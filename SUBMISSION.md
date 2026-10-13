@@ -61,6 +61,18 @@ cd "/home/rabib/codes/whoiam/Build a Game with an AI Coding Agent/game/dist"
 zip -r ../tode-the-frog.zip .
 ```
 
+For GitHub Pages, the built copy is the `docs` folder (already built and committed).
+After pushing: repository **Settings** → **Pages** → branch `master`, folder `/docs` → **Save**.
+The game is then at `https://YOUR-NAME.github.io/tode-the-frog/`. To refresh it after a change:
+
+```bash
+cd "/home/rabib/codes/whoiam/Build a Game with an AI Coding Agent/game"
+npx vite build --outDir docs --emptyOutDir
+git add docs
+git commit -m "build: refresh the GitHub Pages copy"
+git push
+```
+
 ### 2. The source code (for example a GitHub link)
 
 Share the `game` folder with these parts:
